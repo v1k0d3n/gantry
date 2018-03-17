@@ -1,0 +1,44 @@
+#!/bin/bash
+
+### Declare colors to use during the running of this script:
+declare -r GREEN="\033[0;32m"
+declare -r RED="\033[0;31m"
+declare -r YELLOW="\033[0;33m"
+
+function echo_green {
+  echo -e "${GREEN}$1"; tput sgr0
+}
+function echo_red {
+  echo -e "${RED}$1"; tput sgr0
+}
+function echo_yellow {
+  echo -e "${YELLOW}$1"; tput sgr0
+}
+
+sudo apt-get update && sudo apt-get upgrade -y
+
+export HOST_IFACE=$(ip route | grep "^default" | head -1 | awk '{ print $5 }')
+export LOCAL_IP=$(ip addr | awk "/inet/ && /${HOST_IFACE}/{sub(/\/.*$/,\"\",\$2); print \$2}")
+cat << EOF | sudo tee -a /etc/hosts
+${LOCAL_IP} $(hostname)
+EOF
+
+sudo apt-get remove -y docker docker-engine docker.io
+
+sudo apt-get install -y \
+     apt-transport-https \
+     ca-certificates \
+     curl \
+     software-properties-common
+
+sudo curl -s https://download.docker.com/linux/ubuntu/gpg | sudo apt-key add -
+
+cat << EOF | sudo tee -a /etc/apt/sources.list.d/docker.list
+deb [arch=amd64] https://download.docker.com/linux/ubuntu xenial stable
+EOF
+
+sudo apt-get update
+
+sudo apt-get install -y docker-ce=17.06.2~ce-0~ubuntu
+
+echo_green "\nCOMPLETE!"

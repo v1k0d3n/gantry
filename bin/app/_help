@@ -1,0 +1,51 @@
+#!/bin/bash
+source /.kubeadm.env
+cat <<-END
+
+Welcome to Gantry; a Kubeadm-based Kubernetes bootstrapping container.
+
+Usage:
+  gantry [distro] [action] --config [string]
+
+Distro Options:
+  centos         CentOS 6-7
+  coreos         CoreOS
+  fedora         Fedora 25-27
+  ubuntu         Ubuntu 16.04 (Xenial)
+
+Action Options:
+  clean          Cleans any remaining artifacts from previous container runs.
+  help           You're looking at it. It provides this help menu.
+  init           This (with --config) will initialize a Kubernetes cluster.
+  join           Use this to join a Node to an existing cluster.
+  reset          This will destroy a Kubernetes Master/Node running on this host.
+
+Customized Deployments (examples):
+  --config   Used to customize the Kubeadm bootstrapped Kubernetes deployment.
+
+EXAMPLE:
+sudo docker stop kubeadm-contained  && sudo docker rm kubeadm-contained
+sudo rm -rf /opt/kubeadm
+sudo docker run -it \\
+  --name=kubeadm-contained \\
+  --privileged \\
+  --net=host \\
+  --security-opt seccomp:unconfined \\
+  --cap-add=ALL \\
+  -v /etc/cni:/etc/cni \\
+  -v /var/lib/etcd:/var/lib/etcd \\
+  -v /etc/kubernetes:/etc/kubernetes \\
+  -v /usr/libexec/kubernetes:/usr/libexec/kubernetes \\
+  -v /var/lib/kubelet:/var/lib/kubelet \\
+  -v /usr/bin/systemctl:/usr/bin/systemctl \\
+  -v /etc/systemd/system:/etc/systemd/system \\
+  -v /var/run/docker.sock:/var/run/docker.sock \\
+  -v /lib/modules:/lib/modules \\
+  -v /var/run:/var/run \\
+  -v /usr/bin:/usr/bin \\
+  -v /boot:/boot \\
+  -v /opt:/opt \\
+  quay.io/v1k0d3n/kubeadm-contained:latest \\
+  gantry init --config=config.yaml
+
+END

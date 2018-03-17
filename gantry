@@ -1,0 +1,127 @@
+#!/bin/bash
+### Declare colors to use during the running of this script:
+declare -r GREEN="\033[0;32m"
+declare -r RED="\033[0;31m"
+declare -r YELLOW="\033[0;33m"
+
+function echo_green {
+    echo -e "${GREEN}$1"; tput sgr0
+}
+function echo_red {
+    echo -e "${RED}$1"; tput sgr0
+}
+function echo_yellow {
+  echo -e "${YELLOW}$1"; tput sgr0
+}
+
+# Set some environmental parameters:
+PATH="/opt/${ROOTFS}/bin/app:/opt/${ROOTFS}/bin:${PATH}"
+source .kubeadm.env
+export HOSTNAME=$HOSTNAME
+export HOST_IFACE=$(ip route | grep "^default" | head -1 | awk '{ print $5 }')
+export LOCAL_IP=$(ip addr | awk "/inet/ && /${HOST_IFACE}/{sub(/\/.*$/,\"\",\$2); print \$2}")
+grep -q -F "LOCAL_IP=$LOCAL_IP" .kubeadm.env || echo "LOCAL_IP=$LOCAL_IP" >> .kubeadm.env
+
+function optionDistro () {
+    if [[ $VERSION_DISTRO == "coreos" || $VERSION_DISTRO == "atomic" ]]; then
+        echo "[gantry] Distro declared is "$VERSION_DISTRO". This is an immutable distro."
+
+    elif [[ $VERSION_DISTRO == "ubuntu" || $VERSION_DISTRO == "debian" || $VERSION_DISTRO == "fedora" || $VERSION_DISTRO == "centos" ]]; then
+        echo "[gantry] Distro declared is "$VERSION_DISTRO". This is an mutable distro."
+        echo "[gantry] Distro declared is "$VERSION_DISTRO". This is an immutable distro."
+        echo "[gantry] Ensure that the kubelet.service is stopped."
+            systemctl stop kubelet.service
+        echo "[gantry] Removing any stale artifacts from previous deployments."
+            rm -rf /etc/systemd/system/multi-user.target.wants/*
+            rm -rf /lib/systemd/system/kubelet.service
+            rm -rf /etc/kubernetes/*
+            rm -rf /etc/cni/*
+        echo "[gantry] Restarting the kubelet.service."
+            systemctl daemon-reload
+        echo "[gantry] Copying binaries from the container to the host for post-bootstrap management."
+            mkdir -p /etc/systemd/system/multi-user.target.wants
+            mkdir -p /opt/${ROOTFS} ;\
+            cp -R /${ROOTFS}/bin /opt/${ROOTFS}/bin ;\
+            cp -R /${ROOTFS}/etc /opt/${ROOTFS}/etc ;\
+            mkdir -p /opt/cni/bin ;\
+            cp -R /${ROOTFS}/cni/* /opt/cni/bin/
+            cp -R /opt/${ROOTFS}/bin/kube* /usr/bin/
+        echo "[gantry] Copying the kubelet.service to /etc/systemd/system/."
+            (envsubst < /opt/${ROOTFS}/etc/systemd/kubelet/kubelet.in) > /opt/${ROOTFS}/etc/systemd/kubelet/kubelet.out
+            cp /opt/${ROOTFS}/etc/systemd/kubelet/kubelet.out /etc/systemd/system/kubelet.service
+        echo "[gantry] Reloading systemd, and restarting the kubelet.service."
+            systemctl daemon-reload
+            systemctl restart kubelet.service
+    else
+        echo "Please choose a supported distro!"
+    fi
+}
+
+function optionHelp () {
+    exec "/opt/${ROOTFS}/bin/app/_help"
+    exit $1
+}
+
+function optionReset () {
+    echo "[gantry] \"RESET\" has been reqested. Destroying the cluster."
+    /${ROOTFS}/bin/kubeadm reset
+    exit 1
+}
+
+case "$1" in
+    -d | --distro )
+        VERSION_DISTRO+=($2)
+        optionDistro
+        ;;
+    -h | --help | help | \?)
+        optionHelp
+        exit 1
+        ;;
+    -r | --reset | reset)
+        optionReset
+        ;;
+    *)
+        echo "Be confident in yourself! Maybe try \"--help\" to get started?"
+        exit 1
+esac
+
+#echo "$VERSION_DISTRO"
+
+function optionClean () {
+    echo "[gantry] \"clean\" option will be implemented soon!"
+}
+
+function optionInit () {
+    echo "[gantry] \"INIT\" has been requested. Using kubeadm to bootstrap a Kubernetes cluster."
+        #echo "[gantry] This is inside the function:"
+        #echo "$1"
+        #echo "$2"
+        #echo "$3"
+        #echo "$4"
+    rm -rf /var/lib/etcd
+    /usr/bin/kubeadm init "${@:3}"
+}
+
+function optionJoin () {
+    echo "[gantry] \"join\" option will be implemented soon!"
+}
+
+case "$3" in
+    -c | --clean | clean)
+        optionClean
+        ;;
+    -i | --init | init)
+        #echo "[gantry] This is inside the case:"
+        #echo $1
+        #echo $2
+        #echo $3
+        #echo $4
+        shift
+        optionInit "$@"
+        ;;
+    -j | --join | join)
+        optionReset
+        ;;
+    *)
+        echo "Please tell me what to do. Should I [clean|init|join|reset]?"
+esac

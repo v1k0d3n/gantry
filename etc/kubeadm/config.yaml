@@ -1,0 +1,16 @@
+kind: MasterConfiguration
+kubernetesVersion: "v1.9.3"
+apiServerCertSANs:
+- 10.96.0.1
+- kubernetes
+- kubernetes.default
+- kubernetes.default.svc
+- kubernetes.default.svc.cluster
+- kubernetes.default.svc.cluster.local
+networking:
+  serviceSubnet: 10.96.0.0/12
+  podSubnet: 192.168.0.0/16
+apiServerExtraArgs:
+  enable-swagger-ui: "true"
+featureGates:
+  CoreDNS: true

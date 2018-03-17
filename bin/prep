@@ -1,0 +1,40 @@
+#!/bin/bash
+### Declare colors to use during the running of this script:
+declare -r GREEN="\033[0;32m"
+declare -r RED="\033[0;31m"
+declare -r YELLOW="\033[0;33m"
+
+function echo_green {
+  echo -e "${GREEN}$1"; tput sgr0
+}
+function echo_red {
+  echo -e "${RED}$1"; tput sgr0
+}
+function echo_yellow {
+  echo -e "${YELLOW}$1"; tput sgr0
+}
+
+echo_green "\nUsage:"
+echo_green "\nType the following before bootstrapping your cluster:
+\n sudo docker cp kubeadm-prep:/opt/gantry/bin/kubectl /usr/bin/kubectl \
+\n sudo docker cp kubeadm-prep:/opt/gantry/bin/kubelet /usr/bin/kubelet
+\nThen you can bootstrap your environment with the following command:
+\n sudo docker stop kubeadm-bootstrap && sudo docker rm kubeadm-bootstrap \
+\n sudo docker run -d \\
+   --name=kubeadm-bootstrap \\
+   --privileged \\
+   --net=host \\
+   --security-opt seccomp:unconfined \\
+   --cap-add=SYS_ADMIN \\
+   -v /boot:/boot \\
+   -v /var/lib:/var/lib \\
+   -v /var/run:/var/run \\
+   -v /usr/bin/systemctl:/usr/bin/systemctl \\
+   -v /var/run/docker.sock:/var/run/docker.sock \\
+   -v /lib/modules/ \\
+   -v /etc/kubernetes:/etc/kubernetes \\
+   -v /opt/gantry/bin/kubectl:/usr/bin/kubectl \\
+   -v /etc/cni:/etc/cni \\
+   -v \${PWD}/:/opt/gantry/etc \\
+ quay.io/v1k0d3n/kubeadm-contained:v0.1.0 \\
+ kubeadm init --config=config.yaml"

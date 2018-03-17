@@ -1,0 +1,2 @@
+#!/bin/sh
+cat /etc/*release | grep ^ID | tr -d 'ID="' | head -n1

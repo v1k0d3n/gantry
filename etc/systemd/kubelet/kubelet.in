@@ -1,0 +1,40 @@
+[Unit]
+Description=Kubernetes Kubelet
+Documentation=https://kubernetes.io/docs/admin/kubelet/
+[Service]
+Environment=KUBELET_KUBECONFIG_ARGS=--bootstrap-kubeconfig=/etc/kubernetes/bootstrap-kubelet.conf --kubeconfig=/etc/kubernetes/kubelet.conf
+Environment=KUBELET_SYSTEM_PODS_ARGS=--pod-manifest-path=/etc/kubernetes/manifests --allow-privileged=true
+Environment=KUBELET_NETWORK_ARGS=--network-plugin=cni --cni-conf-dir=/etc/cni/net.d --cni-bin-dir=/opt/cni/bin
+Environment=KUBELET_DNS_ARGS=--cluster-dns=10.96.0.10 --cluster-domain=cluster.local
+Environment=KUBELET_AUTHZ_ARGS=--authorization-mode=Webhook --client-ca-file=/etc/kubernetes/pki/ca.crt
+Environment=KUBELET_CADVISOR_ARGS=--cadvisor-port=0
+Environment=KUBELET_CERTIFICATE_ARGS=--rotate-certificates=true --cert-dir=/var/lib/kubelet/pki
+EnvironmentFile=/etc/environment
+ExecStartPre=/bin/mkdir -p /etc/kubernetes
+ExecStartPre=/bin/mkdir -p /etc/kubernetes/manifests
+ExecStartPre=/bin/mkdir -p /opt/cni/bin
+ExecStartPre=/bin/mkdir -p /etc/kubernetes/checkpoint-secrets
+ExecStartPre=/bin/mkdir -p /etc/kubernetes/inactive-manifests
+ExecStartPre=/bin/mkdir -p /var/lib/cni
+ExecStart=/usr/bin/kubelet \
+  --allow-privileged \
+  --cloud-provider= \
+  --cluster_domain=cluster.local \
+  --cluster_dns=10.96.0.10 \
+  --cni-conf-dir=/etc/cni/net.d \
+  --exit-on-lock-contention \
+  --hostname-override=${HOSTNAME} \
+  --kubeconfig=/etc/kubernetes/kubelet.conf \
+  --lock-file=/var/run/lock/kubelet.lock \
+  --minimum-container-ttl-duration=3m0s \
+  --node-labels=node-role.kubernetes.io/master \
+  --node-ip=${LOCAL_IP} \
+  --network-plugin=cni \
+  --pod-manifest-path=/etc/kubernetes/manifests \
+  --register-with-taints=node-role.kubernetes.io/master=:NoSchedule \
+  --require-kubeconfig \
+  --v=2
+Restart=always
+RestartSec=5
+[Install]
+WantedBy=multi-user.target

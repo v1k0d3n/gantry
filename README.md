@@ -1,12 +1,12 @@
 [![Docker Repository on Quay](https://quay.io/repository/v1k0d3n/gantry/status "Docker Repository on Quay")](https://quay.io/repository/v1k0d3n/gantry)
-# Gantry: A Kubeadm Container Project
+# Gantry: a containerized kubeadm project
 A container that bootstraps Kubernetes using Kubeadm (containerized).
 
 **WARNING: THIS REPO IS A WIP**<br>
-This is just a working start, but not how the project will be used as an end state. The plan is to put all logic in the `entrypoint.sh` to determine distro (for required mounts and placement), state (bootstrap, clean, etc), and some considerations for plugins or options (Helm, IPVS, et).
+This is just a working start, but not how the project will be used as an end state. The plan is to put all logic in the `gantry` initially, to determine distro (for required mounts and placement), state (bootstrap, clean, etc), and potentially considerations for some common plugins or options (Helm, IPVS, etc).
 
 ## Basic Usage:
-If you want to try this as its in early stages, you can use it like this:
+If you want to try this as its in early stages, you can use the container like this:
 
 1. Builds the container like so:
 ```shell
@@ -15,7 +15,7 @@ cd gantry
 sudo docker build -t kubeadm-contained .
 ```
 
-2. Start the container with the following parameters (this is likely to change as the project is being tested):
+2. Then start the container with the following parameters (this is likely to change as the project is being tested):
 ```shell
 sudo rm -rf /opt/kubeadm
 sudo docker run -it \
@@ -38,18 +38,19 @@ sudo docker run -it \
    -v /opt:/opt \
    kubeadm-contained gantry -h
 ```
-There are also containers available from DockerHub and Quay under: [v1k0d3n/gantry](https://quay.io/repository/v1k0d3n/gantry?tab=tags)
+There are also containers available from DockerHub and [Quay](https://quay.io/repository/v1k0d3n/gantry?tab=tags).
 
 
-3. You can bring up a cluster with the following syntax (still a WIP):
+3. You can bring up a cluster with the following syntax (which is still, very much a WIP):
 ```shell
 gantry -d centos -i --config /opt/kubeadm/etc/kubeadm/config.yaml
 ```
-And you can destroy a running cluster by using: `gantry -r`
 
 **NOTE:** If you want to deploy with a custom `kubeadm` `MasterConfiguration` file, move your config to `/opt/kubeadm/etc/kubeadm/`.
 
-4. You will still need to configure `kubectl` and apply an SDN manifest (configure your cluster accordingly):
+4. As per the `--help` menu, you can destroy a running cluster by using: `gantry -r`
+
+5. You will still need to configure `kubectl` and apply an SDN manifest (configure your cluster accordingly):
 ```shell
 # Configure kubectl:
 mkdir -p $HOME/.kube

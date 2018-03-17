@@ -58,7 +58,7 @@ function optionDistro () {
 }
 
 function optionHelp () {
-    exec "/opt/${ROOTFS}/bin/app/_help"
+    exec "/${ROOTFS}/bin/app/_help"
     exit $1
 }
 

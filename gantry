@@ -85,19 +85,12 @@ case "$1" in
         exit 1
 esac
 
-#echo "$VERSION_DISTRO"
-
 function optionClean () {
     echo "[gantry] \"clean\" option will be implemented soon!"
 }
 
 function optionInit () {
     echo "[gantry] \"INIT\" has been requested. Using kubeadm to bootstrap a Kubernetes cluster."
-        #echo "[gantry] This is inside the function:"
-        #echo "$1"
-        #echo "$2"
-        #echo "$3"
-        #echo "$4"
     rm -rf /var/lib/etcd
     /usr/bin/kubeadm init "${@:3}"
 }
@@ -111,11 +104,6 @@ case "$3" in
         optionClean
         ;;
     -i | --init | init)
-        #echo "[gantry] This is inside the case:"
-        #echo $1
-        #echo $2
-        #echo $3
-        #echo $4
         shift
         optionInit "$@"
         ;;

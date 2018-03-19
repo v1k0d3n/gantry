@@ -43,7 +43,7 @@ There are also containers available from DockerHub and [Quay](https://quay.io/re
 
 3. You can bring up a cluster with the following syntax (which is still, very much a WIP):
 ```shell
-gantry -d centos -i --config /opt/kubeadm/etc/kubeadm/config.yaml
+gantry -d ubuntu -i --config /opt/kubeadm/etc/kubeadm/config.yaml
 ```
 
 **NOTE:** If you want to deploy with a custom `kubeadm` `MasterConfiguration` file, move your config to `/opt/kubeadm/etc/kubeadm/`.

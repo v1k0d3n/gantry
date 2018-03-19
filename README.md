@@ -48,7 +48,7 @@ There are also containers available from DockerHub and [Quay](https://quay.io/re
 gantry -d ubuntu -i --config -v /kubeadm/etc/kubeadm/YOUR_KUBEADM_MANIFEST.yaml 
 ```
 
-**NOTE:** If you want to deploy with a custom `kubeadm` `MasterConfiguration` file, move your config to `/opt/kubeadm/etc/kubeadm/`.
+**NOTE:** If you want to deploy with a custom `kubeadm` `MasterConfiguration` file, mount `/kubeadm/etc/kubeadm/` to the directory where your config is located. There's a [sample config](https://github.com/v1k0d3n/gantry/blob/master/etc/kubeadm/config.yaml) included, but please refer to section [kubeadm init with a configuration file](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/#config-file) section of the Kubernetes documentation.
 
 4. As per the `--help` menu, you can destroy a running cluster by using: `gantry -r`
 

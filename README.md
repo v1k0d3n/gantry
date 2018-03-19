@@ -18,7 +18,7 @@ sudo docker build -t kubeadm-contained .
 2. Then start the container with the following parameters (this is likely to change as the project is being tested):
 ```shell
 sudo rm -rf /opt/kubeadm
-sudo docker run -it \
+sudo docker run -d \
    --privileged \
    --net=host \
    --security-opt seccomp:unconfined \

@@ -16,7 +16,7 @@ sudo docker build -t kubeadm-contained .
 ```
 
 2. Then start the container with the following parameters (this is likely to change as the project is being tested):
-**NOTE:** *`-v $(pwd):/kubeadm/etc/kubeadm` should be the location of your kubeadm `MasterConfiguration` yaml.*
+<br>**NOTE:** *`-v $(pwd):/kubeadm/etc/kubeadm` should be the location of your kubeadm `MasterConfiguration` yaml.*
 ```shell
 sudo rm -rf /opt/kubeadm
 sudo docker run -d \

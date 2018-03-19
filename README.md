@@ -16,6 +16,7 @@ sudo docker build -t kubeadm-contained .
 ```
 
 2. Then start the container with the following parameters (this is likely to change as the project is being tested):
+**NOTE:** *`-v $(pwd):/kubeadm/etc/kubeadm` should be the location of your kubeadm `MasterConfiguration` yaml.*
 ```shell
 sudo rm -rf /opt/kubeadm
 sudo docker run -d \
@@ -36,6 +37,7 @@ sudo docker run -d \
    -v /usr/bin:/usr/bin \
    -v /boot:/boot \
    -v /opt:/opt \
+   -v $(pwd):/kubeadm/etc/kubeadm
    kubeadm-contained gantry -h
 ```
 There are also containers available from DockerHub and [Quay](https://quay.io/repository/v1k0d3n/gantry?tab=tags).
@@ -43,7 +45,7 @@ There are also containers available from DockerHub and [Quay](https://quay.io/re
 
 3. You can bring up a cluster with the following syntax (which is still, very much a WIP):
 ```shell
-gantry -d ubuntu -i --config /opt/kubeadm/etc/kubeadm/config.yaml
+gantry -d ubuntu -i --config -v /kubeadm/etc/kubeadm/YOUR_KUBEADM_MANIFEST.yaml 
 ```
 
 **NOTE:** If you want to deploy with a custom `kubeadm` `MasterConfiguration` file, move your config to `/opt/kubeadm/etc/kubeadm/`.

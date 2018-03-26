@@ -45,7 +45,7 @@ There are also containers available from DockerHub and [Quay](https://quay.io/re
 
 3. You can bring up a cluster with the following syntax (which is still, very much a WIP):
 ```shell
-gantry -d ubuntu -i --config -v /kubeadm/etc/kubeadm/YOUR_KUBEADM_MANIFEST.yaml 
+gantry -d ubuntu -i --config /kubeadm/etc/kubeadm/YOUR_KUBEADM_MANIFEST.yaml 
 ```
 
 **NOTE:** If you want to deploy with a custom `kubeadm` `MasterConfiguration` file, mount `/kubeadm/etc/kubeadm/` to the directory where your config is located. There's a [sample config](https://github.com/v1k0d3n/gantry/blob/master/etc/kubeadm/config.yaml) included, but please refer to section [kubeadm init with a configuration file](https://kubernetes.io/docs/reference/setup-tools/kubeadm/kubeadm-init/#config-file) section of the Kubernetes documentation.

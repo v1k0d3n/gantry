@@ -37,7 +37,7 @@ sudo docker run -d \
    -v /usr/bin:/usr/bin \
    -v /boot:/boot \
    -v /opt:/opt \
-   -v $(pwd):/kubeadm/etc/kubeadm
+   -v $(pwd):/kubeadm/etc/kubeadm \
    kubeadm-contained gantry -h
 ```
 There are also containers available from DockerHub and [Quay](https://quay.io/repository/v1k0d3n/gantry?tab=tags).

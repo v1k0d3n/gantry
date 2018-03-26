@@ -22,8 +22,6 @@ sudo rm -rf /opt/kubeadm
 sudo docker run -d \
    --privileged \
    --net=host \
-   --security-opt seccomp:unconfined \
-   --cap-add=ALL \
    -v /etc/cni:/etc/cni \
    -v /var/lib/etcd:/var/lib/etcd \
    -v /etc/kubernetes:/etc/kubernetes \

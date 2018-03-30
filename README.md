@@ -74,5 +74,8 @@ On the Kubernetes node (where this will be deployed), run the following from the
 ./bin/distro/ubuntu/start
 ```
 
+## Future State:
+I would really like to get to a future-state that [Jessie Frazelle](https://github.com/jessfraz/) is promoting on her [blog](https://blog.jessfraz.com/) which [builds images securely](https://blog.jessfraz.com/post/building-container-images-securely-on-kubernetes/). We can try to improve the need to run full `--privileged` flags in the meantime. This isn't desired, but is easiest for now.
+
 ## Contributing, Comments, Questions
 Comments, suggestions and PR's are welcome!

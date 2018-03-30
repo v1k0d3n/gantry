@@ -1,5 +1,6 @@
 [![Build Status](http://jenkins.jinkit.com:8080/buildStatus/icon?job=gantry)](http://jenkins.jinkit.com:8080/job/gantry/)<br>
-[![Docker Repository on Quay](https://quay.io/repository/v1k0d3n/kubeadm-contained/status "Docker Repository on Quay")](https://quay.io/repository/v1k0d3n/kubeadm-contained) [![Docker Hub Repository](https://dockerbuildbadges.quelltext.eu/status.svg?organization=v1k0d3n&repository=kubeadm-contained)](https://hub.docker.com/r/v1k0d3n/kubeadm-contained/tags/)
+[![Docker Repository on Quay](https://quay.io/repository/v1k0d3n/gantry/status "Docker Repository on Quay")](https://quay.io/repository/v1k0d3n/gantry) [![Docker Hub Repository](https://niccokunzmann.github.io/dockerhub-build-status-image/status.svg?organization=v1k0d3n&repository=gantry)](https://hub.docker.com/r/v1k0d3n/gantry/tags/)
+
 # Gantry: a containerized kubeadm project
 A container that bootstraps Kubernetes using Kubeadm (containerized).
 
@@ -13,7 +14,7 @@ If you want to try this as its in early stages, you can use the container like t
 ```shell
 git clone https://github.com/v1k0d3n/gantry.git
 cd gantry 
-sudo docker build -t kubeadm-contained .
+sudo docker build -t gantry:latest .
 ```
 
 2. Then start the container with the following parameters (this is likely to change as the project is being tested):
@@ -37,9 +38,9 @@ sudo docker run -d \
    -v /boot:/boot \
    -v /opt:/opt \
    -v $(pwd):/kubeadm/etc/kubeadm \
-   kubeadm-contained gantry -h
+   gantry:latest gantry -h
 ```
-There are also containers available from [DockerHub](https://hub.docker.com/r/v1k0d3n/kubeadm-contained/tags/) and [Quay](https://quay.io/repository/v1k0d3n/kubeadm-contained?tab=tags).
+There are also containers available from [DockerHub](https://hub.docker.com/r/v1k0d3n/gantry/tags/) and [Quay](https://quay.io/repository/v1k0d3n/gantry?tab=tags).
 
 
 3. You can bring up a cluster with the following syntax (which is still, very much a WIP):

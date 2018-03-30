@@ -38,7 +38,7 @@ sudo docker run -d \
    -v $(pwd):/kubeadm/etc/kubeadm \
    kubeadm-contained gantry -h
 ```
-There are also containers available from DockerHub and [Quay](https://quay.io/repository/v1k0d3n/gantry?tab=tags).
+There are also containers available from [DockerHub](https://hub.docker.com/r/v1k0d3n/kubeadm-contained/tags/) and [Quay](https://quay.io/repository/v1k0d3n/kubeadm-contained?tab=tags).
 
 
 3. You can bring up a cluster with the following syntax (which is still, very much a WIP):

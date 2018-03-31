@@ -22,7 +22,7 @@ sudo docker build --build-arg VERSION_KUBEADM=${KUBE_VERSION} --build-arg VERSIO
 <br>***NOTE:*** *`-v $(pwd):/kubeadm/etc/kubeadm` should be the location of your kubeadm `MasterConfiguration` yaml.*
 ```shell
 sudo rm -rf /opt/kubeadm
-sudo docker run -d \
+sudo docker run -it \
    --privileged \
    --net=host \
    -v /etc/cni:/etc/cni \

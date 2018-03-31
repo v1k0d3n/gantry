@@ -39,7 +39,7 @@ sudo docker run -d \
    -v /boot:/boot \
    -v /opt:/opt \
    -v $(pwd):/kubeadm/etc/kubeadm \
-   gantry:latest gantry -h
+   gantry:${KUBE_VERSION} gantry -h
 ```
 There are also containers available from [DockerHub](https://hub.docker.com/r/v1k0d3n/gantry/tags/) and [Quay](https://quay.io/repository/v1k0d3n/gantry?tab=tags).
 

@@ -72,7 +72,7 @@ On the Kubernetes node (where this will be deployed), run the following from the
 ## Alternative Methods:
 If you don't want to use Gantry to bootstrap your cluster, you can still use the Gantry image to distribute Kubernetes binaries ([kubeadm](https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/), [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), and [kubelet](https://kubernetes.io/docs/reference/generated/kubelet/)). All of the binaries are being downloaded directly from [Kubernetes releases](https://storage.googleapis.com/kubernetes-release/) and they are located in `/kubeadm/bin/`. A Gantry image will be created for each Kubernetes release. Simply copy them directly to your host, and use them for your specific setup.
 
-``
+```shell
 ubuntu@gantry-test:~$ sudo docker ps -a
 CONTAINER ID        IMAGE               COMMAND             CREATED             STATUS                      PORTS               NAMES
 97a68d1dd91b        gantry:v1.10.0      "gantry -h"         24 minutes ago      Exited (0) 2  minutes ago                       reverent_mccarthy
@@ -80,7 +80,7 @@ ubuntu@gantry-test:~$ docker cp 97a68d1dd91b:/kubeadm/bin/kubeadm ~
 ubuntu@gantry-test:~$ ls -asl ~/kubeadm
 152804 -rwxr-xr-x 1 ubuntu ubuntu 156467952 Mar 31 04:28 /home/ubuntu/kubeadm
 ubuntu@gantry-test:~$
-`` 
+``` 
 
 ## Future State:
 I would really like to get to a future-state that [Jessie Frazelle](https://github.com/jessfraz/) is promoting on her [blog](https://blog.jessfraz.com/) which [builds images securely](https://blog.jessfraz.com/post/building-container-images-securely-on-kubernetes/). We can try to improve the need to run full `--privileged` flags in the meantime. This isn't desired, but is easiest for now.

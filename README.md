@@ -10,11 +10,12 @@ This is just a working start, but not how the project will be used as an end sta
 ## Basic Usage:
 If you want to try this as its in early stages, you can use the container like this:
 
-1. Builds the container like so:
+1. Builds the container like below. You can leveage `--build-args` to customize your image. 
 ```shell
 git clone https://github.com/v1k0d3n/gantry.git
 cd gantry 
-sudo docker build -t gantry:latest .
+export KUBE_VERSION=v1.10.0
+sudo docker build --build-arg VERSION_KUBEADM=${KUBE_VERSION} --build-arg VERSION_KUBECTL=${KUBE_VERSION} --build-arg VERSION_KUBELET=${KUBE_VERSION} -t gantry:${KUBE_VERSION} .
 ```
 
 2. Then start the container with the following parameters (this is likely to change as the project is being tested):

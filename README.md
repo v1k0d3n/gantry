@@ -64,10 +64,16 @@ kubectl apply -f https://gist.githubusercontent.com/v1k0d3n/aa318f52399f5ebdd604
 ## Preparation:
 Docker is the only real requirement to run this kubeadm-containerized image. If you have a new or default installation (currently Ubuntu Xenial: 16.04), you can use the preparation script to install Docker.
 
-On the Kubernetes node (where this will be deployed), run the following from the main `gantry` directory:
+**Ubuntu:** For Ubuntu systems (where this will be deployed), run the following from the main `gantry` directory to prepare the host (install Docker).
 ```shell
 ./bin/distro/ubuntu/start
 ```
+
+**Red Hat:** Install git first, `sudo yum install -y git`, and then you can use the following (similar to Ubuntu).
+```shell
+./bin/distro/centos/start
+```
+
 
 ## Alternative Methods:
 If you don't want to use Gantry to bootstrap your cluster, you can still use the Gantry image to distribute Kubernetes binaries ([kubeadm](https://kubernetes.io/docs/setup/independent/create-cluster-kubeadm/), [kubectl](https://kubernetes.io/docs/tasks/tools/install-kubectl/), and [kubelet](https://kubernetes.io/docs/reference/generated/kubelet/)). All of the binaries are being downloaded directly from [Kubernetes releases](https://storage.googleapis.com/kubernetes-release/) and they are located in `/kubeadm/bin/`. A Gantry image will be created for each Kubernetes release. Simply copy them directly to your host, and use them for your specific setup.

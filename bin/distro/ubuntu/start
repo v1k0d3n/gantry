@@ -41,6 +41,6 @@ EOF
 
 sudo apt-get update
 
-sudo apt-get install -y docker-ce=${DOCKER_VERSION}~ce-0~ubuntu
+sudo apt-get install -y docker-ce=${DOCKER_VERSION}~ce-0~ubuntu-xenial
 
 echo_green "\nCOMPLETE!"

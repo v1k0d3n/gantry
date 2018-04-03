@@ -28,7 +28,6 @@ function optionDistro () {
 
     elif [[ $VERSION_DISTRO == "ubuntu" || $VERSION_DISTRO == "debian" || $VERSION_DISTRO == "fedora" || $VERSION_DISTRO == "centos" ]]; then
         echo "[gantry] Distro declared is "$VERSION_DISTRO". This is an mutable distro."
-        echo "[gantry] Distro declared is "$VERSION_DISTRO". This is an immutable distro."
         echo "[gantry] Ensure that the kubelet.service is stopped."
             systemctl stop kubelet.service
         echo "[gantry] Removing any stale artifacts from previous deployments."

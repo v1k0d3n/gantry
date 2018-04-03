@@ -19,7 +19,7 @@ MAINTAINER bjozsa@jinkit.com
 ARG DEBIAN_FRONTED=noninteractive
 ARG ARCH="amd64"
 ARG VERSION_CNI="v0.6.0"
-ARG VERSION_DOCK="17.03.2~ce-0~ubuntu"
+ARG VERSION_DOCK="17.03.2"
 ARG VERSION_HELM="v2.7.2"
 ARG VERSION_KUBEADM="v1.9.3"
 ARG VERSION_KUBECTL="v1.9.3"
@@ -85,7 +85,7 @@ RUN apt-get update
 RUN apt-get install -y \
     ebtables \
     ethtool \
-    docker-ce=${VERSION_DOCK} \
+    docker-ce=${VERSION_DOCK}~ce-0~ubuntu-xenial \
     kmod \
     kubernetes-cni \
     libwrap0 \

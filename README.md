@@ -10,7 +10,7 @@ This is just a working start, but not how the project will be used as an end sta
 ## Basic Usage:
 If you want to try this as its in early stages, you can use the container like this:
 
-1. Builds the container like below. You can leveage `--build-args` to customize your image. 
+1. Builds the container like below. You can leverage `--build-args` to customize your image. 
 ```shell
 git clone https://github.com/v1k0d3n/gantry.git
 cd gantry 

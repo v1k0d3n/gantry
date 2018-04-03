@@ -1,0 +1,51 @@
+#!/bin/bash
+
+### Declare colors to use during the running of this script:
+declare -r GREEN="\033[0;32m"
+declare -r RED="\033[0;31m"
+declare -r YELLOW="\033[0;33m"
+
+function echo_green {
+  echo -e "${GREEN}$1"; tput sgr0
+}
+function echo_red {
+  echo -e "${RED}$1"; tput sgr0
+}
+function echo_yellow {
+  echo -e "${YELLOW}$1"; tput sgr0
+}
+
+sudo yum upgrade -y
+
+export HOST_IFACE=$(ip route | grep "^default" | head -1 | awk '{ print $5 }')
+export LOCAL_IP=$(ip addr | awk "/inet/ && /${HOST_IFACE}/{sub(/\/.*$/,\"\",\$2); print \$2}")
+cat << EOF | sudo tee -a /etc/hosts
+${LOCAL_IP} $(hostname)
+EOF
+
+sudo yum remove docker \
+    docker-client \
+    docker-client-latest \
+    docker-common \
+    docker-latest \
+    docker-latest-logrotate \
+    docker-logrotate \
+    docker-selinux \
+    docker-engine-selinux \
+    docker-engine
+
+sudo yum install -y yum-utils \
+    device-mapper-persistent-data \
+    lvm2
+
+sudo yum-config-manager \
+    --add-repo \
+    https://download.docker.com/linux/centos/docker-ce.repo
+
+sudo yum-config-manager --disable docker-ce-edge
+
+sudo yum -y install docker-ce
+
+sudo systemctl start docker
+
+sudo systemctl enable docker

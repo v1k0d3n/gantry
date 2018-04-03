@@ -14,7 +14,7 @@ If you want to try this as its in early stages, you can use the container like t
 ```shell
 git clone https://github.com/v1k0d3n/gantry.git
 cd gantry 
-export KUBE_VERSION=v1.10.0
+export KUBE_VERSION=v1.9.6
 sudo docker build --build-arg VERSION_KUBEADM=${KUBE_VERSION} --build-arg VERSION_KUBECTL=${KUBE_VERSION} --build-arg VERSION_KUBELET=${KUBE_VERSION} -t gantry:${KUBE_VERSION} .
 ```
 

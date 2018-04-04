@@ -46,6 +46,7 @@ then
     echo "User "${USER}" will NOT be added to the docker group on ${HOSTNAME}"
 else
     echo "Adding user "${USER}" to docker group on ${HOSTNAME}:"
+    sudo usermod -aG docker ${USER}
 fi
 
 echo "COMPLETE!"

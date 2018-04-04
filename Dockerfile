@@ -89,7 +89,6 @@ RUN apt-get install -y \
     kmod \
     kubernetes-cni \
     libwrap0 \
-    socat \
     systemd \
     tcpd
 
@@ -97,6 +96,10 @@ RUN apt-get install -y \
 RUN curl -o /tmp/libgcrypt11_1.5.3.deb -L https://launchpad.net/~ubuntu-security/+archive/ubuntu/ppa/+build/8993248/+files/libgcrypt11_1.5.3-2ubuntu4.3_amd64.deb ;\
     dpkg -i /tmp/libgcrypt11_1.5.3.deb ;\
     apt-get install -f
+
+# Separately install any kubeadm requirements:
+RUN apt-get install -y \
+    socat
 
 # Clean up apt-cache:
 RUN apt-get clean ;\

@@ -83,15 +83,20 @@ RUN apt-get update
 
 # Install packages from those sources:
 RUN apt-get install -y \
+    docker-ce=${VERSION_DOCK}~ce-0~ubuntu-xenial \
     ebtables \
     ethtool \
-    docker-ce=${VERSION_DOCK}~ce-0~ubuntu-xenial \
     kmod \
     kubernetes-cni \
     libwrap0 \
     socat \
     systemd \
     tcpd
+
+# Install libgcrypt11 for CentOS support:
+RUN curl -o /tmp/libgcrypt11_1.5.3.deb -L https://launchpad.net/~ubuntu-security/+archive/ubuntu/ppa/+build/8993248/+files/libgcrypt11_1.5.3-2ubuntu4.3_amd64.deb ;\
+    dpkg -i /tmp/libgcrypt11_1.5.3.deb ;\
+    apt-get install -f
 
 # Clean up apt-cache:
 RUN apt-get clean ;\

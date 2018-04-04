@@ -29,7 +29,7 @@ function optionDistro () {
     elif [[ $VERSION_DISTRO == "ubuntu" || $VERSION_DISTRO == "debian" || $VERSION_DISTRO == "fedora" || $VERSION_DISTRO == "centos" ]]; then
         echo "[gantry] Distro declared is "$VERSION_DISTRO". This is an mutable distro."
         echo "[gantry] Ensure that the kubelet.service is stopped."
-            systemctl stop kubelet.service
+            systemctl stop kubelet
         echo "[gantry] Removing any stale artifacts from previous deployments."
             rm -rf /etc/systemd/system/multi-user.target.wants/*
             rm -rf /lib/systemd/system/kubelet.service
@@ -50,7 +50,9 @@ function optionDistro () {
             cp /opt/${ROOTFS}/etc/systemd/kubelet/kubelet.out /etc/systemd/system/kubelet.service
         echo "[gantry] Reloading systemd, and restarting the kubelet.service."
             systemctl daemon-reload
-            systemctl restart kubelet.service
+            systemctl restart kubelet
+            systemctl enable kubelet
+            systemctl enable docker
     else
         echo "Please choose a supported distro!"
     fi

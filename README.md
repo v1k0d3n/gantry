@@ -19,7 +19,7 @@ sudo docker build --build-arg VERSION_KUBEADM=${KUBE_VERSION} --build-arg VERSIO
 ```
 
 2. Then start the container with the following parameters (this is likely to change as the project is being tested): <br>
-**NOTE:** for `$(pwd)` in the line `-v $(pwd):/kubeadm/etc/kubeadm`, this should be the location of your kubeadm `MasterConfiguration` yaml manifest.
+**NOTE:** for `$(pwd)` in the line `-v $(pwd)/etc/kubeadm:/kubeadm/etc/kubeadm`, this should be the location of your kubeadm `MasterConfiguration` yaml manifest. The `docker run` command in the example below assumes that you are in the `gantry` project folder.
 ```shell
 sudo rm -rf /opt/kubeadm
 sudo docker run -it \
@@ -38,7 +38,7 @@ sudo docker run -it \
    -v /usr/bin:/usr/bin \
    -v /boot:/boot \
    -v /opt:/opt \
-   -v $(pwd):/kubeadm/etc/kubeadm \
+   -v $(pwd)/etc/kubeadm:/kubeadm/etc/kubeadm \
    gantry:${KUBE_VERSION} gantry -d ubuntu -i --config /kubeadm/etc/kubeadm/config.yaml
 ```
 Container images of Gantry are available on both [DockerHub](https://hub.docker.com/r/v1k0d3n/gantry/tags/) and [Quay](https://quay.io/repository/v1k0d3n/gantry?tab=tags).
@@ -62,7 +62,7 @@ kubectl apply -f https://gist.githubusercontent.com/v1k0d3n/aa318f52399f5ebdd604
 ```
 
 ## Preparation:
-Docker is the only real requirement to run this kubeadm-containerized image. If you have a new or default installation (currently Ubuntu Xenial: 16.04), you can use the preparation script to install Docker.
+Docker should be the only requirement to run the `gantry` image, since the intention is to also run on immutable distros such as Atomic and Container Linux. If you have a new or default installation (currently Ubuntu Xenial: 16.04), you can use the preparation script to install Docker.
 
 **Ubuntu:** For Ubuntu systems (where this will be deployed), run the following from the main `gantry` directory to prepare the host (install Docker).
 ```shell
